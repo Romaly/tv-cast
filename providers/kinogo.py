@@ -8,6 +8,24 @@ PROVIDER_NAME = 'kinogo.online'
 BASE_URL = 'https://kinogo.online'
 MAX_PAGE = 8369
 
+headers = {
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+    'accept-language': 'en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7',
+    'cache-control': 'max-age=0',
+    # 'cookie': '__ddg1_=aEwkxf6yvUT3C9y3JaoK; PHPSESSID=f213d2f792c2d2012420fb4b8272bda2',
+    'priority': 'u=0, i',
+    'referer': 'https://kinogo.online/page/4/',
+    'sec-ch-ua': '"Not A(Brand";v="8", "Chromium";v="132", "Google Chrome";v="132"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'document',
+    'sec-fetch-mode': 'navigate',
+    'sec-fetch-site': 'same-origin',
+    'sec-fetch-user': '?1',
+    'upgrade-insecure-requests': '1',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36',
+}
+
 
 def parse_movies(data_call_back, maxPage=MAX_PAGE):
     counter = 0
@@ -15,8 +33,10 @@ def parse_movies(data_call_back, maxPage=MAX_PAGE):
         random_user_agent = random.choice(user_agents.user_agents_list)
         print(random_user_agent)
 
-        headers = {'User-Agent': random_user_agent}
         url_to_parse = f"{BASE_URL}/page/{page_number}"
+
+        headers['User-Agent'] = random_user_agent
+        headers['referer'] = url_to_parse  # f"{BASE_URL}/page/{page_number}"
 
         resp = requests.get(url_to_parse, headers=headers).text
 
