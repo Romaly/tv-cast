@@ -46,9 +46,15 @@ def parse_movies(data_call_back, maxPage=MAX_PAGE):
             try:
                 film_info = {'provider': PROVIDER_NAME}
 
-                title = el.find('div', class_='hTitle').find('a')
-                film_info['title'] = title['title']
-                film_info['movie_page_url'] = title['href']
+                title_node = el.find('div', class_='hTitle').find('a')
+                title = title_node['title']
+
+                year = title[-6: len(title)]
+                if (year.count('(') and year.count(')')):
+                    title = title.replace(year, '').strip()
+
+                film_info['title'] = title
+                film_info['movie_page_url'] = title_node['href']
 
                 try:
                     rating = el.find('span', class_='ratingStats')
@@ -57,7 +63,7 @@ def parse_movies(data_call_back, maxPage=MAX_PAGE):
                     film_info['rating'] = ''
 
                 poster = el.find('div', class_='sPoster').find('a').find('img')
-                film_info['image_url'] = url_to_parse + poster['data-src']
+                film_info['image_url'] = BASE_URL + poster['data-src']
 
                 info = el.find('div', class_='sInfo')
 
@@ -80,8 +86,11 @@ def parse_movies(data_call_back, maxPage=MAX_PAGE):
                     film_info['genre'] = ''
 
                 try:
-                    film_info['duration'] = info.find(
+                    duration = info.find(
                         lambda tag: tag.name == "span" and 'Продолжительность:' in tag.text).text
+                    film_info['duration'] = duration.replace(
+                        'Продолжительность:', '').strip()
+
                 except:
                     film_info['duration'] = ''
 

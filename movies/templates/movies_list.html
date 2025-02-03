@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Фильмы{% endblock %}
+{% block content %}
+<table class="table mt-5 table-bordered table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th>Year</th>
+            <th>Duration</th>
+            <th>Country</th>
+            <th>Genre</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movie in movies %}
+        <tr>
+            <td>{{movie.title}}</td>
+            <td>{{movie.year}}</td>
+            <td>{{movie.duration}}</td>
+            <td>{{movie.country}}</td>
+            <td>{{movie.genre}}</td>
+            <td><img src="{{movie.image_url}}" width="200" height="300" alt="{{movie.title}}" title="{{movie.title}}"></td>
+            <td><button class="btn btn-primary">Open</button></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

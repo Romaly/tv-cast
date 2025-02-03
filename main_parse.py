@@ -1,6 +1,11 @@
 from providers import kinogo
 import time
 import data_store
+import requests
+
+
+print('qwerty'.replace('qwe', ''))
+
 
 data_store.init()
 
