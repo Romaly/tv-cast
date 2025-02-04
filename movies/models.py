@@ -11,8 +11,17 @@ class Provider(models.Model):
         return self.name
 
 
+class Genre(models.Model):
+    name = models.CharField(max_length=255)
+    created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.name
+
+
 class Movie(models.Model):
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    genre = models.ManyToManyField(Genre)
 
     title = models.CharField(max_length=255)
     movie_page_url = models.CharField(max_length=1024)
@@ -21,7 +30,6 @@ class Movie(models.Model):
     rating = models.CharField(max_length=255)
     year = models.IntegerField()
     country = models.CharField(max_length=255)
-    genre = models.CharField(max_length=1024)
     additional_info = models.CharField(max_length=255)
     description = models.CharField(max_length=2048)
 
